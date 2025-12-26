@@ -157,13 +157,22 @@ function addInteractiveEffects() {
     // Add click effect to social icons
     const socialIcons = document.querySelectorAll('.social-icon');
     socialIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
+        icon.addEventListener('click', function(e) {
+            // Add visual feedback
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
             }, 200);
             
-            // In a real implementation, this would link to social media
+            // If this is an anchor tag with href, allow default navigation
+            if (this.tagName === 'A' && this.hasAttribute('href')) {
+                // Allow the link to work normally
+                console.log('Navigating to:', this.href);
+                return;
+            }
+            
+            // Otherwise, prevent default and log (for placeholder icons)
+            e.preventDefault();
             console.log('Social icon clicked - would navigate to social media page');
         });
     });
