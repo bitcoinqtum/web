@@ -24,7 +24,7 @@ function init() {
             if (href === '#') return;
             
             const targetId = href.substring(1);
-            if (['welcome', 'introduction', 'contact'].includes(targetId)) {
+            if (['welcome', 'introduction', 'qcsc', 'contact'].includes(targetId)) {
                 e.preventDefault();
                 switchPage(targetId);
                 
@@ -105,7 +105,7 @@ function setupMobileMenu() {
 // Switch between pages
 function switchPage(pageId) {
     // Validate pageId
-    const validPages = ['welcome', 'introduction', 'contact'];
+    const validPages = ['welcome', 'introduction', 'qcsc', 'contact'];
     if (!validPages.includes(pageId)) {
         console.warn(`Invalid page ID: ${pageId}, defaulting to welcome`);
         pageId = 'welcome';
