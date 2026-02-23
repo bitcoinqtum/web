@@ -24,7 +24,7 @@ function init() {
             if (href === '#') return;
             
             const targetId = href.substring(1);
-            if (['welcome', 'introduction', 'qcsc', 'contact'].includes(targetId)) {
+            if (['welcome', 'introduction', 'techreview', 'qcsc', 'contact'].includes(targetId)) {
                 e.preventDefault();
                 switchPage(targetId);
                 
@@ -57,6 +57,13 @@ function init() {
 function setupNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Allow external links (HTML files) to work normally
+            if (href && !href.startsWith('#')) {
+                return; // Let the browser handle it normally
+            }
+            
             e.preventDefault();
             
             const pageId = this.getAttribute('data-page');
@@ -105,7 +112,7 @@ function setupMobileMenu() {
 // Switch between pages
 function switchPage(pageId) {
     // Validate pageId
-    const validPages = ['welcome', 'introduction', 'qcsc', 'contact'];
+    const validPages = ['welcome', 'introduction', 'techreview', 'qcsc', 'contact'];
     if (!validPages.includes(pageId)) {
         console.warn(`Invalid page ID: ${pageId}, defaulting to welcome`);
         pageId = 'welcome';
