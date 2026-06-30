@@ -149,51 +149,18 @@ function switchPage(pageId) {
 
 // Add interactive effects
 function addInteractiveEffects() {
-    // Add hover effect to info boxes
-    const infoBoxes = document.querySelectorAll('.info-box');
-    infoBoxes.forEach(box => {
-        box.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        box.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Add click effect to social icons
-    const socialIcons = document.querySelectorAll('.social-icon');
-    socialIcons.forEach(icon => {
-        icon.addEventListener('click', function(e) {
-            // Add visual feedback
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 200);
-            
-            // If this is an anchor tag with href, allow default navigation
-            if (this.tagName === 'A' && this.hasAttribute('href')) {
-                // Allow the link to work normally
-                console.log('Navigating to:', this.href);
-                return;
-            }
-            
-            // Otherwise, prevent default and log (for placeholder icons)
-            e.preventDefault();
-            console.log('Social icon clicked - would navigate to social media page');
-        });
-    });
-    
     // Add loading animation to GIF
     const welcomeGif = document.querySelector('.welcome-gif');
     if (welcomeGif) {
-        welcomeGif.addEventListener('load', function() {
-            this.style.opacity = '1';
-            this.style.transition = 'opacity 0.5s ease';
-        });
-        
-        // Set initial opacity to 0 for fade-in effect
-        welcomeGif.style.opacity = '0';
+        welcomeGif.style.transition = 'opacity 0.5s ease';
+        if (welcomeGif.complete) {
+            welcomeGif.style.opacity = '1';
+        } else {
+            welcomeGif.style.opacity = '0';
+            welcomeGif.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+        }
     }
     
     // Process email obfuscation
@@ -217,16 +184,6 @@ function processEmailObfuscation() {
     emailLink.textContent = decodedEmail;
     emailLink.href = `mailto:${decodedEmail}`;
     
-    // Add typing effect to email (optional)
-    const originalText = emailLink.textContent;
-    emailLink.addEventListener('mouseenter', function() {
-        this.textContent = 'Click to email us!';
-    });
-    
-    emailLink.addEventListener('mouseleave', function() {
-        this.textContent = originalText;
-    });
-    
     console.log('Email obfuscation processed successfully');
 }
 
@@ -237,11 +194,3 @@ if (document.readyState === 'loading') {
     init();
 }
 
-// Export functions for debugging (optional)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        init,
-        switchPage,
-        setupNavigation
-    };
-}
